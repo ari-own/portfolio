@@ -1,0 +1,464 @@
+/* ============================================
+   사원증(THE PERFORMER) 스타일 포트폴리오
+   - 모든 크기를 --u 단위로 잡아 한 화면에 꼭 맞게
+   ============================================ */
+
+:root {
+  /* 화면 높이와 너비 중 작은 쪽에 맞춰 전체 크기가 함께 줄어듦 */
+  --u: min(1vh, 1.45vw);
+  --paper: #f7f3ea;
+  --ink: #161616;
+  --muted: #6f6a60;
+  --line: #9c978c;
+  --accent: #0b6fb8;
+  --bg-1: #ffffff;
+  --bg-2: #ecebe8;
+  --holder: linear-gradient(115deg, rgba(255,255,255,0.75) 0%, rgba(235,238,240,0.45) 45%, rgba(255,255,255,0.7) 100%);
+  --holder-edge: rgba(0, 0, 0, 0.14);
+  --hole-edge: rgba(0, 0, 0, 0.2);
+  --hole: #f1f1f0;
+  --photo-bg: #e6ded2;
+  --photo-frame: #ffffff;
+  --holder-glare: rgba(255, 255, 255, 0.8);
+}
+
+/* ---------- 다크 모드 ---------- */
+@media (prefers-color-scheme: dark) {
+  :root {
+    --paper: #23221f;
+    --ink: #ece7dc;
+    --muted: #b1ab9f;
+    --line: #6c675e;
+    --accent: #6db3e8;
+    --bg-1: #2a2d31;
+    --bg-2: #121417;
+    --holder: rgba(255, 255, 255, 0.08);
+    --holder-edge: rgba(255, 255, 255, 0.18);
+    --hole-edge: rgba(255, 255, 255, 0.18);
+    --hole: #1a1c1f;
+    --photo-bg: #3a3631;
+    --photo-frame: #4d4943;
+    --holder-glare: rgba(255, 255, 255, 0.06);
+  }
+}
+
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+html,
+body {
+  height: 100%;
+}
+
+body {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden; /* 스크롤 없이 한 화면 */
+  background: radial-gradient(circle at 50% 40%, var(--bg-1) 0%, var(--bg-2) 75%);
+  color: var(--ink);
+  font-family: "Noto Sans KR", sans-serif;
+  line-height: 1.3;
+}
+
+.sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+  clip: rect(0 0 0 0);
+  white-space: nowrap;
+}
+
+/* ---------- 투명 비닐 홀더 ---------- */
+.holder {
+  position: relative;
+  width: calc(var(--u) * 64);
+  height: calc(var(--u) * 90);
+  margin-top: calc(var(--u) * 4);
+  padding: calc(var(--u) * 11) calc(var(--u) * 3) calc(var(--u) * 3);
+  background: var(--holder);
+  border: 1px solid var(--holder-edge);
+  border-radius: calc(var(--u) * 2);
+  box-shadow:
+    inset 0 0 0 calc(var(--u) * 0.6) var(--holder-glare),
+    inset 0 0 calc(var(--u) * 1.5) rgba(0, 0, 0, 0.08),
+    0 calc(var(--u) * 1) calc(var(--u) * 3) rgba(0, 0, 0, 0.12);
+}
+
+/* 비닐 지퍼 라인 */
+.holder::before {
+  content: "";
+  position: absolute;
+  left: calc(var(--u) * 1);
+  right: calc(var(--u) * 1);
+  top: calc(var(--u) * 8.5);
+  height: calc(var(--u) * 0.7);
+  border-top: 1px solid rgba(0, 0, 0, 0.12);
+  border-bottom: 1px solid rgba(0, 0, 0, 0.08);
+}
+
+.holder-top {
+  position: absolute;
+  top: calc(var(--u) * 2.5);
+  left: 0;
+  right: 0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: calc(var(--u) * 7);
+}
+
+.hole,
+.slot {
+  display: block;
+  height: calc(var(--u) * 3.6);
+  border: 1px solid var(--hole-edge);
+  background: var(--hole);
+  box-shadow: inset 0 1px 2px rgba(0, 0, 0, 0.15);
+}
+
+.hole {
+  width: calc(var(--u) * 3.6);
+  border-radius: 50%;
+}
+
+.slot {
+  width: calc(var(--u) * 10);
+  border-radius: calc(var(--u) * 1.8);
+}
+
+/* 금속 고리 */
+.ring {
+  position: absolute;
+  top: calc(var(--u) * -5);
+  left: 50%;
+  width: calc(var(--u) * 4.5);
+  height: calc(var(--u) * 9);
+  transform: translateX(10%) rotate(12deg);
+  border: calc(var(--u) * 0.7) solid #a9adb1;
+  border-radius: 50%;
+  box-shadow: inset 0 0 2px rgba(0,0,0,0.3), 0 1px 2px rgba(0,0,0,0.25);
+  z-index: 2;
+}
+
+/* ---------- 카드 본체 ---------- */
+.badge {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  padding: calc(var(--u) * 2.6) calc(var(--u) * 3.2) calc(var(--u) * 2);
+  background: var(--paper);
+  box-shadow: 0 0 0 1px rgba(0, 0, 0, 0.06);
+  font-size: calc(var(--u) * 1.5);
+}
+
+/* 헤더: THE PORTFOLIO */
+.badge-head {
+  position: relative;
+}
+
+h1 {
+  font-family: "Anton", "Impact", sans-serif;
+  font-weight: 400;
+  font-size: calc(var(--u) * 6.4);
+  line-height: 0.92;
+  letter-spacing: -0.01em;
+  color: var(--ink);
+}
+
+.drop {
+  position: absolute;
+  top: calc(var(--u) * 6.2);
+  right: 0;
+  font-family: "Space Mono", monospace;
+  font-size: calc(var(--u) * 1.3);
+}
+
+.nav {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-top: calc(var(--u) * 0.8);
+  padding: calc(var(--u) * 0.6) 0;
+  border-top: 1px dashed var(--line);
+  border-bottom: 1px dashed var(--line);
+}
+
+/* "about face" 스티커처럼 보이는 로고 */
+.logo {
+  order: 2;
+  padding: 0 calc(var(--u) * 0.8);
+  background: var(--ink);
+  color: var(--paper);
+  font-weight: 700;
+  font-size: calc(var(--u) * 1.5);
+  transform: rotate(-2deg);
+}
+
+.menu {
+  display: flex;
+  gap: calc(var(--u) * 1.6);
+  list-style: none;
+  font-family: "Space Mono", monospace;
+  font-size: calc(var(--u) * 1.3);
+  font-weight: 700;
+}
+
+.menu a {
+  color: var(--ink);
+  text-decoration: none;
+}
+
+.menu a:hover {
+  color: var(--accent);
+}
+
+/* ---------- 본문 ---------- */
+/* 소개 · 작업 · 연락처 세 덩어리를 같은 간격으로 나눔 */
+main {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-evenly;
+  gap: calc(var(--u) * 1.4);
+  min-height: 0;
+  padding: calc(var(--u) * 1) 0;
+}
+
+/* 소개 영역 : 모바일은 사진 위·글 아래 */
+#intro {
+  display: flex;
+  flex-direction: column;
+  gap: calc(var(--u) * 0.8);
+}
+
+/* 증명사진 (크기 고정) */
+.photo {
+  flex: none;
+  height: calc(var(--u) * 17);
+  aspect-ratio: 4 / 5;
+  margin: 0 auto;
+  background: var(--photo-bg);
+  border: calc(var(--u) * 0.5) solid var(--photo-frame);
+  box-shadow: 0 0 0 1px rgba(0, 0, 0, 0.08);
+}
+
+.photo img {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+/* 이름표 줄 (라벨 + 손글씨 + 점선) */
+.field {
+  display: flex;
+  align-items: baseline;
+  gap: calc(var(--u) * 1.2);
+  border-bottom: 1px dashed var(--line);
+  padding-top: calc(var(--u) * 0.3);
+}
+
+.field dt,
+.field label {
+  flex-shrink: 0;
+  font-family: "Space Mono", monospace;
+  font-size: calc(var(--u) * 1.1);
+  letter-spacing: 0.05em;
+}
+
+.field dd,
+.field input,
+.field textarea {
+  font-family: "Nanum Pen Script", cursive;
+  font-size: calc(var(--u) * 3);
+  line-height: 1.1;
+  color: var(--ink);
+}
+
+.lead {
+  word-break: keep-all; /* 한글을 단어 단위로 줄바꿈 */
+  font-size: calc(var(--u) * 2.4) !important;
+}
+
+/* 섹션 라벨 */
+.section-label {
+  font-family: "Space Mono", monospace;
+  font-size: calc(var(--u) * 1.2);
+  font-weight: 700;
+  letter-spacing: 0.15em;
+}
+
+.cards {
+  display: flex;
+  flex-direction: column;
+}
+
+.card {
+  display: grid;
+  grid-template-columns: calc(var(--u) * 2.4) auto 1fr;
+  align-items: baseline;
+  gap: calc(var(--u) * 1);
+  border-bottom: 1px dashed var(--line);
+}
+
+.num {
+  font-family: "Space Mono", monospace;
+  font-size: calc(var(--u) * 1.1);
+  color: var(--muted);
+}
+
+.card {
+  padding: calc(var(--u) * 0.3) 0;
+}
+
+.card h3 {
+  font-family: "Nanum Pen Script", cursive;
+  font-weight: 400;
+  font-size: calc(var(--u) * 2.3);
+  line-height: 1.2;
+  white-space: nowrap;
+}
+
+.card p {
+  font-size: calc(var(--u) * 1.25);
+  color: var(--muted);
+  text-align: right;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+/* 연락처 폼 */
+fieldset {
+  border: none;
+  display: grid;
+  grid-template-columns: 1fr 2fr auto;
+  align-items: end;
+  gap: 0 calc(var(--u) * 1.2);
+}
+
+legend {
+  margin-bottom: calc(var(--u) * 0.2);
+}
+
+.field input,
+.field textarea {
+  width: 100%;
+  min-width: 0;
+  border: none;
+  background: transparent;
+  outline: none;
+  resize: none;
+  overflow: hidden;
+  height: calc(var(--u) * 3.4);
+}
+
+.field:focus-within {
+  border-bottom-color: var(--accent);
+}
+
+form button {
+  padding: calc(var(--u) * 0.5) calc(var(--u) * 1.4);
+  border: 2px solid var(--ink);
+  background: transparent;
+  color: var(--ink);
+  font-family: "Space Mono", monospace;
+  font-size: calc(var(--u) * 1.2);
+  font-weight: 700;
+  cursor: pointer;
+  transform: rotate(-3deg);
+}
+
+form button:hover {
+  background: var(--ink);
+  color: var(--paper);
+}
+
+/* ---------- 카드 하단 ---------- */
+.badge-foot {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-end;
+  margin-top: calc(var(--u) * 1.4);
+}
+
+.fine {
+  font-family: "Space Mono", monospace;
+  font-size: calc(var(--u) * 0.85);
+  line-height: 1.3;
+}
+
+.code {
+  font-family: "Anton", "Impact", sans-serif;
+  font-size: calc(var(--u) * 3);
+  line-height: 1;
+}
+
+/* ---------- 태블릿 폭부터는 사진과 글을 나란히 ---------- */
+@media (min-width: 768px) {
+  #intro {
+    flex-direction: row;
+    align-items: flex-end;
+    gap: calc(var(--u) * 2.4);
+  }
+
+  .fields {
+    flex: 1;
+    min-width: 0;
+  }
+}
+
+/* ---------- 휴대폰·좁은 화면 : 스크롤 허용, 글씨는 읽을 수 있게 ---------- */
+@media (max-width: 767px) {
+  :root {
+    --u: min(calc((100vw - 32px) / 64), 9px);
+  }
+
+  .holder {
+    height: auto;
+  }
+
+  main {
+    gap: 18px;
+    padding: 14px 0 6px;
+  }
+
+  body {
+    align-items: flex-start;
+    overflow: auto;
+    padding: 48px 16px 24px;
+  }
+
+  /* 작업 설명은 제목 아래 줄로 */
+  .card {
+    grid-template-columns: calc(var(--u) * 2.4) 1fr;
+  }
+
+  .card p {
+    grid-column: 2;
+    text-align: left;
+    white-space: normal;
+    padding-bottom: 4px;
+  }
+
+  /* 너무 작아지지 않도록 최소 글자 크기 */
+  .menu,
+  .drop,
+  .card p,
+  form button { font-size: max(11px, calc(var(--u) * 1.3)); }
+  .field dt,
+  .field label,
+  .num,
+  .section-label { font-size: max(10px, calc(var(--u) * 1.1)); }
+  .fine { font-size: max(8px, calc(var(--u) * 0.85)); }
+  .field dd,
+  .field input,
+  .field textarea { font-size: max(19px, calc(var(--u) * 3)); }
+  .lead { font-size: max(17px, calc(var(--u) * 2.4)) !important; }
+  .card h3 { font-size: max(17px, calc(var(--u) * 2.3)); }
+}

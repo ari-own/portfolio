@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="ko">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="color-scheme" content="light dark" />
+    <title>김승주 포트폴리오</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Anton&family=Nanum+Pen+Script&family=Noto+Sans+KR:wght@400;700&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+  </head>
+  <body>
+    <!-- 투명 비닐 카드 홀더 + 고리 -->
+    <div class="holder">
+      <div class="ring" aria-hidden="true"></div>
+      <div class="holder-top" aria-hidden="true">
+        <span class="hole"></span>
+        <span class="slot"></span>
+        <span class="hole"></span>
+      </div>
+
+      <!-- 사원증 카드 (한 화면에 모든 내용) -->
+      <div class="badge">
+        <header class="badge-head">
+          <h1 aria-label="김승주 포트폴리오">THE<br>PORTFOLIO</h1>
+          <span class="drop">NO:2026</span>
+          <nav class="nav">
+            <span class="logo">김승주</span>
+            <ul class="menu">
+              <li><a href="#intro">소개</a></li>
+              <li><a href="#work">작업</a></li>
+              <li><a href="#contact">연락처</a></li>
+            </ul>
+          </nav>
+        </header>
+
+        <main>
+          <section id="intro">
+            <h2 class="sr-only">소개</h2>
+            <div class="photo">
+              <img src="me.jpg" alt="김승주의 프로필 사진" onerror="this.style.visibility='hidden'">
+            </div>
+            <dl class="fields">
+              <div class="field"><dt>NAME</dt><dd>김승주</dd></div>
+              <div class="field"><dt>OCCUPATION</dt><dd>Code Newbie</dd></div>
+              <div class="field"><dt>INTRO</dt><dd class="lead">웹 개발을 배우고 있습니다. 만드는 것을 좋아합니다.</dd></div>
+            </dl>
+          </section>
+
+          <section id="work">
+            <h2 class="section-label">WORKS</h2>
+            <div class="cards">
+              <article class="card">
+                <span class="num">01</span>
+                <h3>개인 소개 페이지</h3>
+                <p>HTML만으로 만든 첫 페이지입니다.</p>
+              </article>
+              <article class="card">
+                <span class="num">02</span>
+                <h3>회원가입 폼</h3>
+                <p>입력 요소와 기본 검증을 연습했습니다.</p>
+              </article>
+              <article class="card">
+                <span class="num">03</span>
+                <h3>시맨틱 구조 정리</h3>
+                <p>검색엔진과 화면낭독기를 고려했습니다.</p>
+              </article>
+            </div>
+          </section>
+
+          <section id="contact">
+            <h2 class="sr-only">연락처</h2>
+            <form action="/contact" method="post">
+              <fieldset>
+                <legend class="section-label">CONTACT</legend>
+                <div class="field">
+                  <label for="name">이름</label>
+                  <input type="text" id="name" name="name" required>
+                </div>
+                <div class="field">
+                  <label for="message">내용</label>
+                  <textarea id="message" name="message" rows="1"></textarea>
+                </div>
+                <button type="submit">보내기</button>
+              </fieldset>
+            </form>
+          </section>
+        </main>
+
+        <footer class="badge-foot">
+          <p class="fine">THE HOLDER OF THIS CARD IS<br>
+            A WEB DEVELOPER IN TRAINING</p>
+          <p class="code">OZ coding school</p>
+        </footer>
+      </div>
+    </div>
+  </body>
+</html>
